@@ -1,0 +1,11 @@
+# File: .cargo/config.toml
+[build]
+target = "x86_64-mistgos.json"
+
+[unstable]
+build-std = ["core", "compiler_builtins", "alloc"]
+build-std-features = ["compiler-builtins-mem"]
+
+[target.'cfg(target_os = "none")']
+# Use the bootimage runner to create a bootable disk image and launch QEMU.
+runner = "bootimage runner"

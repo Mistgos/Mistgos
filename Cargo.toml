@@ -1,0 +1,16 @@
+# File: Cargo.toml (in the root directory)
+
+[workspace]
+members = [
+    "mistgos-engine",
+    "mistgos-shard",
+    "mistgos-core",
+]
+resolver = "3"
+
+# Optimize dependencies in development for speed, but abort on panic
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"

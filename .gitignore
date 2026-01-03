@@ -1,0 +1,13 @@
+# Ignore the build directory
+/target
+
+# Ignore lock files if you prefer,
+# but for binary projects it's often kept.
+# For now, let's keep it simple:
+Cargo.lock
+
+# Ignore any temporary or hidden files
+.DS_Store
+.idea/
+.vscode/
+*.rs.bk

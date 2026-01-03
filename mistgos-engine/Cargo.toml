@@ -1,0 +1,14 @@
+[package]
+name = "mistgos-engine"
+version = "0.1.0"
+edition = "2021"
+
+# Add this section to disable the default test harness for the kernel
+[[bin]]
+name = "mistgos-engine"
+test = false
+bench = false
+
+[dependencies]
+# The bootloader crate acts as a bridge to switch from 32-bit to 64-bit mode.
+bootloader = "0.9.23"
