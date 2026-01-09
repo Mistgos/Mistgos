@@ -12,3 +12,7 @@ bench = false
 [dependencies]
 # The bootloader crate acts as a bridge to switch from 32-bit to 64-bit mode.
 bootloader = "0.9.23"
+# Helps us create a global WRITER that can be used anywhere
+lazy_static = { version = "1.4.0", features = ["spin_no_std"] }
+# Provides a mutex that doesn't need an OS to work
+spin = "0.9.8"

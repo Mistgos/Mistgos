@@ -3,36 +3,38 @@
 #![no_std]
 #![no_main]
 
+// Import the new VGA buffer module to enable println!
+pub mod vga_buffer;
+
 use bootloader::{entry_point, BootInfo};
 use core::panic::PanicInfo;
 
-// Defines the entry point function.
-// The bootloader transfers control to this function after initializing 64-bit mode.
+// Define the entry point for the 64-bit kernel
 entry_point!(kernel_main);
 
-fn kernel_main(_boot_info: &'static BootInfo) -> ! {
-    // The VGA text buffer is located at physical address 0xb8000.
-    let vga_buffer = 0xb8000 as *mut u8;
+fn kernel_main(boot_info: &'static BootInfo) -> ! {
+    // New way: Clear screen and print using the VGA driver
+    println!("MISTGOS Engine is online.");
+    println!("Graph-based Modular Operating System");
+    println!("------------------------------------");
 
-    // Message to display.
-    let msg = b"MISTGOS (64-bit) has loaded successfully!";
-
-    for (i, &byte) in msg.iter().enumerate() {
-        unsafe {
-            // Write the ASCII byte.
-            *vga_buffer.offset(i as isize * 2) = byte;
-            // Write the color attribute (0xb = light cyan).
-            *vga_buffer.offset(i as isize * 2 + 1) = 0xb;
-        }
+    // Count memory regions from the bootloader's memory map
+    let mut region_count = 0;
+    for _region in boot_info.memory_map.iter() {
+        region_count += 1;
     }
 
-    // Infinite loop to prevent the kernel from returning (which is undefined behavior).
+    // Now we can print the actual number to the screen
+    println!("Hardware: Found {} memory regions.", region_count);
+
     loop {}
 }
 
-// This function is called on panic.
+// Only ONE panic handler is allowed in the entire binary
 #[cfg(not(test))]
 #[panic_handler]
-fn panic(_info: &PanicInfo) -> ! {
+fn panic(info: &PanicInfo) -> ! {
+    // We use our new println! to see the error
+    println!("{}", info);
     loop {}
 }
